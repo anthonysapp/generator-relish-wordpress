@@ -1,5 +1,3 @@
-# generator-relish-wordpress [![Build Status](https://secure.travis-ci.org/anthonysapp/generator-relish-wordpress.png?branch=master)](https://travis-ci.org/anthonysapp/generator-relish-wordpress)
-
 > [Yeoman](http://yeoman.io) generator
 
 
