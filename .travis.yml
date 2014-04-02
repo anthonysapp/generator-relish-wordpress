@@ -1,0 +1,7 @@
+language: node_js
+node_js:
+  - '0.10'
+before_install:
+  - currentfolder=${PWD##*/}
+  - if [ "$currentfolder" != 'generator-relish-wordpress' ]; then cd .. && eval "mv $currentfolder generator-relish-wordpress" && cd generator-relish-wordpress; fi
+

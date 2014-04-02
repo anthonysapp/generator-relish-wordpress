@@ -1,0 +1,80 @@
+/** MIXINS **/
+.text-drop-shadow(){
+  text-shadow: 0px 1px 1px rgba(0,0,0,0.29);
+}
+.light(){
+  font-weight:300 !important;
+}
+.normal(){
+  font-weight: normal !important;
+}
+.semi-bold(){
+  font-weight: 600 !important;
+}
+.bold(){
+  font-weight:700 !important;
+}
+.extra-bold(){
+  font-weight:800 !important;
+}
+.big-btn(){
+  height:47px;
+  font-size:15px;
+  padding-left:25px;
+  padding-right:25px;
+  padding-top:14px;
+  margin-bottom:25px;
+}
+// use inside an @font-face declaration to generate a font-squirrel-ish font declaration
+.make-font(@fontfamily, @fontname, @dir:'',  @weight:normal,@style:normal){
+  font-family: @fontfamily;
+  src: url('@{dir}/@{fontname}.eot');
+  src: url('@{dir}/@{fontname}.eot?#iefix') format('embedded-opentype'),
+  url('@{dir}/@{fontname}.woff') format('woff'),
+  url('@{dir}/@{fontname}.ttf') format('truetype'),
+  url('@{dir}/@{fontname}.svg#@{fontfamily}') format('svg');
+  font-weight: @weight;
+  font-style: @style;
+}
+
+/** create a transparent background colour button with an outline, or a button with a solkid background colour **/
+.outline-button(@c, @darken:5%, @text-transform:uppercase) when (iscolor(@c)){
+  border-color:@c;
+  color:@c;
+  text-transform: @text-transform;
+  &:hover, &.active{
+    color:darken(@c, @darken) !important;
+    border-color:darken(@c, @darken) !important;
+  }
+}
+.solid-button(@c, @darken:5%, @text-transform:uppercase) when (iscolor(@c)){
+  border-color:@c;
+  background-color:@c;
+  color:white;
+  text-transform: @text-transform;
+  &:hover, &.active{
+    background-color:darken(@c, @darken) !important;
+    border-color:darken(@c, @darken) !important;
+  }
+}
+
+/**
+	recursively set animation delays and transitions on all the elements in the group until the @limit is reached
+ 	@transition - the transition to be used on all the elements passed in
+ 	@delayincrement - how much to increase the delay between each element in the list
+ 	@initialdelay - just what it sounds like
+ 	@selector - could be any selector, but this mixin uses nth-child to iterate the list and assign delays
+ 	@limit defaults to 10 if no limit is passed -> could clutter up CSS but not too bad
+**/
+.transition-group(@transition, @delayincrement:.1s, @initialdelay:0, @selector:'li', @limit:10){
+  @selectors: ~`(function(){var clsArray = @{selector}.split(",");return clsArray.join(', ');})()`;
+
+  .loop(@index) when(@index =< @limit) {
+    @{selectors}:nth-child(@{index}) {
+      @delay: @delayincrement * @index + @initialdelay;
+      .transition(~`(function(){var clsArray = @{transition}.split(",");return clsArray.join(' @{delay}, ') + ' @{delay}';})()`);
+    }
+    .loop(@index + 1);
+  }
+  .loop(1);
+}
