@@ -42,18 +42,79 @@ RelishWordpressGenerator.prototype.askFor = function askFor() {
             name: 'themeName',
             message: 'please enter the name of your theme',
             default: 'relish'
+        },
+        {
+            type: 'confirm',
+            name: 'configSetup',
+            message: 'would you like to set up the config file?',
+            default: true
         }
     ];
 
     this.prompt(prompts, function (props) {
+
         this.appPath = props.appPath;
         this.contentPath = this.appPath + '/wp-content';
         this.pluginPath = this.contentPath + '/plugins';
 
         this.themeName = props.themeName;
+
+        this.configSetup = props.configSetup;
         done();
     }.bind(this));
 };
+
+RelishWordpressGenerator.prototype.checkDB = function checkDB() {
+    var done = this.async();
+
+    if (!this.configSetup){
+        return done();
+    }
+
+    var prompts = [
+        {
+            type: 'input',
+            name: 'dbName',
+            message: 'enter the database name',
+            default: this.themeName + '_db'
+        },
+        {
+            type: 'input',
+            name: 'dbUser',
+            message: 'please enter username for the database',
+            default: this.themeName + '_user'
+        },
+        {
+            type: 'input',
+            name: 'dbPass',
+            message: 'please enter password for the database',
+            default: 'Cucumb3r'
+        },
+        {
+            type: 'input',
+            name: 'dbHost',
+            message: 'enter the db host',
+            default: 'localhost'
+        },
+        {
+            type: 'input',
+            name: 'tablePrefix',
+            message: 'enter the db table prefix',
+            default: '_wp'
+        }
+    ];
+
+    this.prompt(prompts, function (props) {
+
+        this.dbName = props.dbName;
+        this.dbUser = props.dbUser;
+        this.dbPass = props.dbPass;
+        this.dbHost = props.dbHost;
+        this.tablePrefix = props.tablePrefix;
+
+        done();
+    }.bind(this));
+}
 
 RelishWordpressGenerator.prototype.app = function app() {
     this.mkdir(this.appPath);
@@ -69,6 +130,7 @@ RelishWordpressGenerator.prototype.getWordPress = function getWordPress() {
         done();
     }.bind(this))
 };
+
 RelishWordpressGenerator.prototype.createThemeDir = function createThemeDir() {
     var done = this.async();
 
@@ -78,6 +140,24 @@ RelishWordpressGenerator.prototype.createThemeDir = function createThemeDir() {
     done();
 };
 
+
+RelishWordpressGenerator.prototype.makeConfigFile = function makeConfigFile() {
+    var done = this.async();
+    if (!this.configSetup){
+        return done();
+    }
+    var configFile = this.readFileAsString(this.appPath + '/wp-config-sample.php');
+
+    configFile = configFile.replace("define('DB_NAME', 'database_name_here');","define('DB_NAME', '"+this.dbName+"');");
+    configFile = configFile.replace("define('DB_USER', 'username_here');","define('DB_USER', '"+this.dbUser+"');");
+    configFile = configFile.replace("define('DB_PASSWORD', 'password_here');","define('DB_PASSWORD', '"+this.dbPass+"');");
+    configFile = configFile.replace("define('DB_HOST', 'localhost');","define('DB_HOST', '"+this.dbHost+"');");
+    configFile = configFile.replace("$table_prefix  = 'wp_';","$table_prefix  = '"+this.tablePrefix+"';");
+    configFile = configFile.replace("define('WP_DEBUG', false);","define('WP_DEBUG', true);");
+
+    this.write(this.appPath + '/wp-config.php', configFile);
+    done();
+};
 RelishWordpressGenerator.prototype.getThemeBase = function getThemeBase() {
     var done = this.async();
 
@@ -275,15 +355,14 @@ RelishWordpressGenerator.prototype.projectfiles = function projectfiles() {
 
 RelishWordpressGenerator.prototype._replaceUnderscores = function _replaceUnderscores(filePath) {
     var file = this.readFileAsString(filePath);
-    var newFile, newFile2, newFile3, finalFile;
 
-    newFile = this._replace("'_s'", "'" + this.themeName + "'", file);
-    newFile2 = this._replace("_s_", this.themeName + "_", newFile);
-    newFile3 = this._replace(" _s", " " + this.themeName, newFile2);
-    finalFile = this._replace("_s-", this.themeName + "-", newFile3);
+    file = this._replace("'_s'", "'" + this.themeName + "'", file);
+    file = this._replace("_s_", this.themeName + "_", file);
+    file = this._replace(" _s", " " + this.themeName, file);
+    file = this._replace("_s-", this.themeName + "-", file);
 
     fs.unlinkSync(filePath);
-    this.write(filePath, finalFile);
+    this.write(filePath, file);
 }
 
 RelishWordpressGenerator.prototype._replace = function _replace(find, replace, str) {
@@ -291,11 +370,12 @@ RelishWordpressGenerator.prototype._replace = function _replace(find, replace, s
 }
 
 RelishWordpressGenerator.prototype._deleteDirRecursive = function _deleteDirRecursive(path) {
+    var self = this;
     if (fs.existsSync(path)) {
         fs.readdirSync(path).forEach(function (file, index) {
             var curPath = path + "/" + file;
             if (fs.lstatSync(curPath).isDirectory()) { // recurse
-                deleteFolderRecursive(curPath);
+                self._deleteDirRecursive(curPath);
             } else { // delete file
                 fs.unlinkSync(curPath);
             }
