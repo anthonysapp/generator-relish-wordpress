@@ -1,4 +1,4 @@
-    $version = 0.1;
+$version = 0.1;
     wp_deregister_style('style-css');
 
     if (!is_admin()) {

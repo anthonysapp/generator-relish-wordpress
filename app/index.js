@@ -232,7 +232,7 @@ RelishWordpressGenerator.prototype.editFunctionsPHP = function editFunctionsPHP(
     file = file.replace("require get_template_directory() . '/inc/customizer.php';", "//require get_template_directory() . '/inc/customizer.php;");
     file = file.replace("require get_template_directory() . '/inc/jetpack.php';", "//require get_template_directory() . '/inc/jetpack.php;");
 
-    file = file.concat("/**\n  * Load "+ this.themeName +"'s extra functions file.\n*/\nrequire get_template_directory() . '/inc/"+ this.themeName + "-functions.php';");
+    file = file.concat("\n/**\n  * Load "+ this.themeName +"'s extra functions file.\n */\nrequire get_template_directory() . '/inc/"+ this.themeName + "-functions.php';");
 
     fs.unlinkSync(filePath);
     this.write(filePath, file);
@@ -345,13 +345,6 @@ RelishWordpressGenerator.prototype.projectfiles = function projectfiles() {
 };
 
 /** PRIVATE FUNCTIONS - NOT TRIGGERED AUTOMATICALLY **/
-/*
- Search for '_s' (inside single quotations) to capture the text domain.
- Search for _s_ to capture all the function names.
- Search for Text Domain: _s in style.css.
- Search for  _s (with a space before it) to capture DocBlocks.
- Search for _s- to capture prefixed handles.
- */
 
 RelishWordpressGenerator.prototype._replaceUnderscores = function _replaceUnderscores(filePath) {
     var file = this.readFileAsString(filePath);

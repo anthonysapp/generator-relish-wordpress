@@ -1,5 +1,6 @@
 Relish Wordpress Generator - a [Yeoman](http://yeoman.io) generator for local WordPress installs
 
+
 ![](http://www.reli.sh/wp/wp-content/themes/relish/resources/v3/css/backgrounds/home/intro/jar.png)
 
 ## Getting Started
