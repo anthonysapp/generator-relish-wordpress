@@ -90,6 +90,11 @@ RelishWordpressGenerator.prototype.getThemeBase = function getThemeBase() {
     }.bind(this));
 };
 
+RelishWordpressGenerator.prototype.removeOldThemes = function removeOldThemes(){
+    this._deleteDirRecursive(this.contentPath + '/themes/twentytwelve');
+    this._deleteDirRecursive(this.contentPath + '/themes/twentythirteen');
+}
+
 RelishWordpressGenerator.prototype.addScriptsStyles = function addScriptsStyles() {
     var done = this.async();
     this.template('_scripts-styles.txt', this.themePath + '/scripts-styles.txt');
