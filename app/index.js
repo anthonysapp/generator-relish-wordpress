@@ -158,6 +158,7 @@ RelishWordpressGenerator.prototype.makeConfigFile = function makeConfigFile() {
     this.write(this.appPath + '/wp-config.php', configFile);
     done();
 };
+
 RelishWordpressGenerator.prototype.getThemeBase = function getThemeBase() {
     var done = this.async();
 
@@ -240,18 +241,17 @@ RelishWordpressGenerator.prototype.editFunctionsPHP = function editFunctionsPHP(
     done();
 }
 
-RelishWordpressGenerator.prototype.overwriteExistingFiles = function overwriteExistingFiles() {
+RelishWordpressGenerator.prototype.changeThemeNamesWithinExistingFiles = function changeThemeNamesWithinExistingFiles() {
     var done = this.async();
-
-    this._replaceUnderscores(this.themePath + '/inc/custom-header.php');
-    this._replaceUnderscores(this.themePath + '/inc/customizer.php');
-    this._replaceUnderscores(this.themePath + '/inc/extras.php');
-    this._replaceUnderscores(this.themePath + '/inc/jetpack.php');
-    this._replaceUnderscores(this.themePath + '/inc/template-tags.php');
-    this._replaceUnderscores(this.themePath + '/inc/wpcom.php');
-
+    this._replaceUnderscoresRecursive(this.themePath);
     done();
 };
+
+RelishWordpressGenerator.prototype.renameLanguageFile = function renameLanguageFile(){
+    var done = this.async();
+    fs.rename(this.themePath + '/languages/_s.pot', this.themePath + '/languages/'+ this.themeName + '.pot', done);
+};
+
 RelishWordpressGenerator.prototype.removeJSFolder = function removeJSFolder() {
     var done = this.async();
     this._deleteDirRecursive(this.themePath + '/js');
@@ -381,4 +381,18 @@ RelishWordpressGenerator.prototype._deleteDirRecursive = function _deleteDirRecu
         });
         fs.rmdirSync(path);
     }
+};
+
+RelishWordpressGenerator.prototype._replaceUnderscoresRecursive = function _replaceUnderscoresRecursive(path) {
+    var self = this;
+    var curPath;
+
+    fs.readdirSync(path).forEach(function (file, index) {
+        curPath = path + "/" + file;
+        if (fs.lstatSync(curPath).isDirectory()) { // recurse
+            self._replaceUnderscoresRecursive(curPath);
+        }else{
+            self._replaceUnderscores(curPath);
+        }
+    });
 };
