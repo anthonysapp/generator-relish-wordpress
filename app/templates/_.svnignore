@@ -1,0 +1,3 @@
+wp-content/plugins/
+wp-content/themes/<% themeName %>/node_modules/
+wp-content/themes/<% themeName %>/bower_components/
