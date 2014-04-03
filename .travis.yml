@@ -1,7 +1,12 @@
 language: node_js
 node_js:
-  - '0.10'
+- '0.10'
+deploy:
+  api_key:
+    secure: kto1GEqIJYo4IAPxZNtqAcYB4QokuG81uzX0L53xUNPsfdOImK73nS3vLF/VoFKI2DLuf2cC9MwBxUfmfCdbA94ph0FYqL2h8Lg16u2zYWKnik7NxqHr5YgdsOzPTLPWumbKcYqidNsC6zF72oJ1RNf2PThrgkHH7OwtkxLD3Qk=
+  email: anthony@reli.sh
+  provider: npm
 before_install:
-  - currentfolder=${PWD##*/}
-  - if [ "$currentfolder" != 'generator-relish-wordpress' ]; then cd .. && eval "mv $currentfolder generator-relish-wordpress" && cd generator-relish-wordpress; fi
-
+- currentfolder=${PWD##*/}
+- if [ "$currentfolder" != 'generator-relish-wordpress' ]; then cd .. && eval "mv
+  $currentfolder generator-relish-wordpress" && cd generator-relish-wordpress; fi
