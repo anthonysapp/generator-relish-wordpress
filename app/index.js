@@ -339,6 +339,12 @@ RelishWordpressGenerator.prototype.copyVariablesFile = function copyVariablesFil
     });
 };
 
+RelishWordpressGenerator.prototype.addSvnignore = function addSvnignore() {
+    var done = this.async();
+    this.template('_.svnignore', this.appPath + '/.svnignore');
+    done();
+};
+
 RelishWordpressGenerator.prototype.projectfiles = function projectfiles() {
     this.copy('editorconfig', '.editorconfig');
     this.copy('jshintrc', '.jshintrc');
