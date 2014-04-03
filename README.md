@@ -40,8 +40,7 @@ $ yo relish-wordpress
 9. Copies the FontAwesome fonts folder to the theme's fonts folder
 10. Loads in come commonly used JS plugins.
 11. Creates a sample main.js file
-12. Creates a .svnignore file so node_modules, bower_components and plugins won't be versioned.
-13. Sets up the Gruntfile.js in the theme folder to make this all work!
+12. Sets up the Gruntfile.js in the theme folder to make this all work!
 
 
 ### Getting To Know Yeoman
