@@ -228,7 +228,7 @@ RelishWordpressGenerator.prototype.editFunctionsPHP = function editFunctionsPHP(
     file = this._replace(" _s", " " + this.themeName, file);
     file = this._replace("_s-", this.themeName + "-", file);
 
-    file = file.replace("require get_template_directory() . '/inc/template-tags.php';", "//require get_template_directory() . '/inc/template-tags.php';");
+    //file = file.replace("require get_template_directory() . '/inc/template-tags.php';", "//require get_template_directory() . '/inc/template-tags.php';");
     file = file.replace("require get_template_directory() . '/inc/extras.php';", "//require get_template_directory() . '/inc/extras.php';");
     file = file.replace("require get_template_directory() . '/inc/customizer.php';", "//require get_template_directory() . '/inc/customizer.php;");
     file = file.replace("require get_template_directory() . '/inc/jetpack.php';", "//require get_template_directory() . '/inc/jetpack.php;");
