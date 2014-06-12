@@ -309,12 +309,16 @@ RelishWordpressGenerator.prototype.createGruntFile = function createGruntFile() 
     this.copy('_Gruntfile.js', this.themePath + '/Gruntfile.js');
 };
 
-RelishWordpressGenerator.prototype.createAssets = function createAssets() {
-    this.directory('assets', this.themePath + '/assets');
+RelishWordpressGenerator.prototype.createSrc = function createSrc() {
+    this.directory('src', this.themePath + '/src');
 };
 
-RelishWordpressGenerator.prototype.createImagesFolder = function createImagesFolder() {
+RelishWordpressGenerator.prototype.createAssets = function createAssets() {
+    this.mkdir(this.themePath + '/assets');
     this.mkdir(this.themePath + '/assets/img');
+    this.mkdir(this.themePath + '/assets/css');
+    this.mkdir(this.themePath + '/assets/js');
+    this.mkdir(this.themePath + '/assets/fonts');
 };
 
 RelishWordpressGenerator.prototype.copyFontAwesomeFiles = function copyFontAwesomeFiles() {
