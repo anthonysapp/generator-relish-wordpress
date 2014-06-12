@@ -31,7 +31,7 @@ module.exports = function(grunt) {
             }
         },
         jshint: {
-            files: ['Gruntfile.js', 'src/**/*.js', 'test/**/*.js'],
+            files: ['Gruntfile.js'],
             options: {
                 // options here to override JSHint defaults
                 globals: {
@@ -49,7 +49,7 @@ module.exports = function(grunt) {
                     cleancss: false
                 },
                 files: {
-                    "assets/css/<%= pkg.name %>.css": "assets/less/main.less"
+                    "assets/css/<%= pkg.name %>.css": "src/less/main.less"
                 }
             },
             production: {
@@ -58,7 +58,7 @@ module.exports = function(grunt) {
                     cleancss: true
                 },
                 files: {
-                    "assets/css/<%= pkg.name %>.min.css": "assets/less/main.less"
+                    "assets/css/<%= pkg.name %>.min.css": "src/less/main.less"
                 }
             }
         },
@@ -90,8 +90,6 @@ module.exports = function(grunt) {
                 // OPTIONAL: Specify CSS format (inferred from destCSS' extension by default)
                 // (stylus, scss, scss_maps, sass, less, json, json_array, css)
                 cssFormat: 'less',
-
-
 
                 // OPTIONAL: Specify settings for algorithm
                 algorithmOpts: {
