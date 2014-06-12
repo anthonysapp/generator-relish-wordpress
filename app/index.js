@@ -335,7 +335,7 @@ RelishWordpressGenerator.prototype.copyFontAwesomeFiles = function copyFontAweso
 RelishWordpressGenerator.prototype.copyVariablesFile = function copyVariablesFile() {
     var done = this.async();
 
-    fs.copy(this.themePath + '/bower_components/bootstrap/less/variables.less', this.themePath + '/assets/css/variables.less', function (err) {
+    fs.copy(this.themePath + '/bower_components/bootstrap/less/variables.less', this.themePath + '/src/less/variables.less', function (err) {
         if (err) {
             return done(err)
         }
