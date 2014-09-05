@@ -1,6 +1,6 @@
 {
   "name": "generator-relish-wordpress",
-  "version": "0.6.1",
+  "version": "0.6.2",
   "description": "Yeoman generator for creating a local Wordpress site installation",
   "license": "MIT",
   "main": "app/index.js",
