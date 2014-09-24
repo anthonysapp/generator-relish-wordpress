@@ -285,33 +285,35 @@ RelishWordpressGenerator.prototype.deps = function deps() {
     });
 };
 
+RelishWordpressGenerator.prototype.createSrc = function createSrc() {
+    this.directory('src', this.themePath + '/src');
+};
+
 RelishWordpressGenerator.prototype.moveNodeModules = function moveNodeModules() {
     var done = this.async();
-    fs.rename('node_modules', this.themePath + '/node_modules', done);
+    fs.rename('node_modules', this.themePath + '/src/node_modules', done);
 };
 
 RelishWordpressGenerator.prototype.moveBowerComponents = function moveBowerComponents() {
     var done = this.async();
-    fs.rename('bower_components', this.themePath + '/bower_components', done);
+    fs.rename('bower_components', this.themePath + '/src/bower_components', done);
 };
 
 RelishWordpressGenerator.prototype.movePackageJSON = function movePackageJSON() {
     var done = this.async();
-    fs.rename('package.json', this.themePath + '/package.json', done);
+    fs.rename('package.json', this.themePath + '/src/package.json', done);
 };
 
 RelishWordpressGenerator.prototype.moveBowerJSON = function moveBowerJSON() {
     var done = this.async();
-    fs.rename('bower.json', this.themePath + '/bower.json', done);
+    fs.rename('bower.json', this.themePath + '/src/bower.json', done);
 };
 
 RelishWordpressGenerator.prototype.createGruntFile = function createGruntFile() {
-    this.copy('_Gruntfile.js', this.themePath + '/Gruntfile.js');
+    this.copy('_Gruntfile.js', this.themePath + '/src/Gruntfile.js');
 };
 
-RelishWordpressGenerator.prototype.createSrc = function createSrc() {
-    this.directory('src', this.themePath + '/src');
-};
+
 
 RelishWordpressGenerator.prototype.createAssets = function createAssets() {
     this.mkdir(this.themePath + '/assets');
@@ -324,7 +326,7 @@ RelishWordpressGenerator.prototype.createAssets = function createAssets() {
 RelishWordpressGenerator.prototype.copyFontAwesomeFiles = function copyFontAwesomeFiles() {
     var done = this.async();
 
-    fs.copyRecursive(this.themePath + '/bower_components/font-awesome/fonts', this.themePath + '/assets/fonts', function (err) {
+    fs.copyRecursive(this.themePath + '/src/bower_components/font-awesome/fonts', this.themePath + '/assets/fonts', function (err) {
         if (err) {
             return done(err)
         }
@@ -335,7 +337,7 @@ RelishWordpressGenerator.prototype.copyFontAwesomeFiles = function copyFontAweso
 RelishWordpressGenerator.prototype.copyVariablesFile = function copyVariablesFile() {
     var done = this.async();
 
-    fs.copy(this.themePath + '/bower_components/bootstrap/less/variables.less', this.themePath + '/src/less/variables.less', function (err) {
+    fs.copy(this.themePath + '/src/bower_components/bootstrap/less/variables.less', this.themePath + '/src/less/variables.less', function (err) {
         if (err) {
             return done(err)
         }

@@ -70,7 +70,7 @@ module.exports = function(grunt) {
         },
         sprite: {
             "base": {
-                src: ['img/sprite/base/*.png'],
+                src: ['img/sprite/*.png'],
                 destImg: 'img/sprite.png',
                 destCSS: 'less/sprite.less',
                 imgPath: '../img/sprite.png',
@@ -79,7 +79,7 @@ module.exports = function(grunt) {
                 engine: 'auto',
                 cssFormat: 'less',
                 cssTemplate: 'lib/templates/less.template.mustache'
-            },
+            }/*,
             "2x":{
                 src: ['img/sprite/2x/*.png'],
                 destImg: 'img/sprite@2x.png',
@@ -94,6 +94,7 @@ module.exports = function(grunt) {
                     variableModifier:'-2x'
                 }
             }
+            */
         },
         pngmin: {
             compile: {
