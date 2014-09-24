@@ -3,6 +3,6 @@ node_js:
 - '0.10'
 deploy:
   api_key:
-    secure: kto1GEqIJYo4IAPxZNtqAcYB4QokuG81uzX0L53xUNPsfdOImK73nS3vLF/VoFKI2DLuf2cC9MwBxUfmfCdbA94ph0FYqL2h8Lg16u2zYWKnik7NxqHr5YgdsOzPTLPWumbKcYqidNsC6zF72oJ1RNf2PThrgkHH7OwtkxLD3Qk=
+    secure: E10N0cHpENO9HWAzTUDASAd5UonIyqZJR48loFH+hgBrMZ+bwy75IhhgOtO3J8ArzN9NncN3ozhjvKKplfk+ieSuiPUAux0NYonhv+WC059HrGAumySXy/tpPYB6x/nKt/LHaGL/jc/drqviyB044vQifUlNrq6BA7/h3+lHyqc=
   email: anthony@reli.sh
   provider: npm
