@@ -7,17 +7,12 @@ module.exports = function(grunt) {
             },
             js: {
                 src: [
-                    'src/js/vendor/jquery-1.11.0.min.js',
                     'bower_components/bootstrap/dist/js/bootstrap.min.js',
-                    'src/js/vendor/jquery.validate.min.js',
-                    'src/js/vendor/jrespond.min.js',
-                    'src/js/vendor/owl.carousel.min.js',
-                    'src/js/vendor/ScrollToPlugin.min.js',
-                    'src/js/vendor/TweenMax.min.js',
-                    'src/js/vendor/jquery.inview.js',
-                    'src/js/main.js'
+                    'js/vendor/ScrollToPlugin.min.js',
+                    'js/vendor/TweenMax.min.js',
+                    'js/main.js'
                 ],
-                dest: 'assets/js/<%= pkg.name %>.js'
+                dest: '../assets/js/<%= pkg.name %>.js'
             }
         },
         uglify: {
@@ -26,7 +21,7 @@ module.exports = function(grunt) {
             },
             dist: {
                 files: {
-                    'src/js/<%= pkg.name %>.min.js': ['<%= concat.js.dest %>']
+                    '../assets/js/<%= pkg.name %>.min.js': ['<%= concat.js.dest %>']
                 }
             }
         },
@@ -45,11 +40,11 @@ module.exports = function(grunt) {
         less: {
             development: {
                 options: {
-                    paths: ["less"],
+                    paths: ["css"],
                     cleancss: false
                 },
                 files: {
-                    "assets/css/<%= pkg.name %>.css": "src/less/main.less"
+                    "../assets/css/<%= pkg.name %>.css": "less/main.less"
                 }
             },
             production: {
@@ -58,54 +53,45 @@ module.exports = function(grunt) {
                     cleancss: true
                 },
                 files: {
-                    "assets/css/<%= pkg.name %>.min.css": "src/less/main.less"
+                    "../assets/css/<%= pkg.name %>.min.css": "less/main.less"
                 }
             }
         },
-        sprite: {
-            all: {
-                // Sprite files to read in
-                src: ['src/img/sprite/*'],
-
-                // Location to output spritesheet
-                destImg: 'src/img/sprite.png',
-
-                // Stylus with variables under sprite names
-                destCSS: 'src/less/sprite.less',
-
-                // OPTIONAL: Manual override for imgPath specified in CSS
-                imgPath: '../img/sprite.png',
-
-                // OPTIONAL: Specify algorithm (top-down, left-right, diagonal [\ format],
-                // alt-diagonal [/ format], binary-tree [best packing])
-                // Visual representations can be found below
-                algorithm: 'binary-tree',
-
-                // OPTIONAL: Specify padding between images
-                padding: 2,
-
-                // OPTIONAL: Specify engine (auto, phantomjs, canvas, gm, pngsmith)
-                engine: 'auto',
-
-                // OPTIONAL: Specify CSS format (inferred from destCSS' extension by default)
-                // (stylus, scss, scss_maps, sass, less, json, json_array, css)
-                cssFormat: 'less',
-
-                // OPTIONAL: Specify settings for algorithm
-                algorithmOpts: {
-                    // Skip sorting of images for algorithm (useful for sprite animations)
-                    //sort: false
+        image_resize: {
+            base: {
+                options: {
+                    width: '50%',
+                    height: '50%',
+                    overwrite: true
                 },
-
-                // OPTIONAL: Specify css options
+                src: 'img/sprite/2x/*.png',
+                dest: 'img/sprite/base/'
+            }
+        },
+        sprite: {
+            "base": {
+                src: ['img/sprite/base/*.png'],
+                destImg: 'img/sprite.png',
+                destCSS: 'less/sprite.less',
+                imgPath: '../img/sprite.png',
+                algorithm: 'binary-tree',
+                padding: 1,
+                engine: 'auto',
+                cssFormat: 'less',
+                cssTemplate: 'lib/templates/less.template.mustache'
+            },
+            "2x":{
+                src: ['img/sprite/2x/*.png'],
+                destImg: 'img/sprite@2x.png',
+                destCSS: 'less/sprite2x.less',
+                imgPath: '../img/sprite@2x.png',
+                algorithm: 'binary-tree',
+                padding: 2,
+                engine: 'auto',
+                cssFormat: 'less',
+                cssTemplate: 'lib/templates/less.template.mustache',
                 cssOpts: {
-                    // Some templates allow for skipping of function declarations
-                    functions: true,
-
-                    // CSS template allows for overriding of CSS selectors
-                    cssClass: function (item) {
-                        return '.sprite-' + item.name;
-                    }
+                    variableModifier:'-2x'
                 }
             }
         },
@@ -117,15 +103,20 @@ module.exports = function(grunt) {
                 },
                 files: [
                     {
-                        src: 'src/img/sprite.png',
-                        dest: 'assets/img/'
+                        src: 'img/sprite@2x.png',
+                        dest: '../assets/img/sprite@2x.png'
+                    },
+                    {
+                        src: 'img/sprite.png',
+                        dest: '../assets/img/sprite.png'
                     }
                 ]
+
             }
         },
         watch: {
-            files: ['Gruntfile.js','src/less/*.less', 'src/js/vendor/*.js','src/js/main.js'],
-            tasks: ['default'],
+            files: ['Gruntfile.js', 'less/*.less', 'js/vendor/*.js', 'js/main.js'],
+            tasks: ['production'],
             options: {
                 livereload: true
             }
@@ -138,10 +129,12 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-contrib-less');
     grunt.loadNpmTasks('grunt-spritesmith');
+    grunt.loadNpmTasks('grunt-image-resize');
     grunt.loadNpmTasks('grunt-pngmin');
 
     grunt.registerTask('test', ['jshint', 'concat']);
-    grunt.registerTask('default', ['jshint','less:development', 'concat']);
-    grunt.registerTask('build', ['jshint', 'sprite','pngmin', 'less', 'concat', 'uglify']);
+    grunt.registerTask('default', ['jshint', 'less', 'concat']);
+    grunt.registerTask('production', ['jshint', 'less', 'concat', 'uglify']);
+    grunt.registerTask('build', ['jshint', 'image_resize', 'sprite','pngmin', 'less', 'concat', 'uglify']);
     grunt.registerTask('cssonly', ['less:development']);
 };
