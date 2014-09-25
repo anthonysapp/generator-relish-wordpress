@@ -289,10 +289,12 @@ RelishWordpressGenerator.prototype.createSrc = function createSrc() {
     this.directory('src', this.themePath + '/src');
 };
 
+/*
 RelishWordpressGenerator.prototype.moveNodeModules = function moveNodeModules() {
     var done = this.async();
     fs.rename('node_modules', this.themePath + '/src/node_modules', done);
 };
+*/
 
 RelishWordpressGenerator.prototype.moveBowerComponents = function moveBowerComponents() {
     var done = this.async();
@@ -301,18 +303,17 @@ RelishWordpressGenerator.prototype.moveBowerComponents = function moveBowerCompo
 
 RelishWordpressGenerator.prototype.movePackageJSON = function movePackageJSON() {
     var done = this.async();
-    fs.rename('package.json', this.themePath + '/src/package.json', done);
+    fs.rename('package.json', this.themePath + '/package.json', done);
 };
 
 RelishWordpressGenerator.prototype.moveBowerJSON = function moveBowerJSON() {
     var done = this.async();
-    fs.rename('bower.json', this.themePath + '/src/bower.json', done);
+    fs.rename('bower.json', this.themePath + '/bower.json', done);
 };
 
 RelishWordpressGenerator.prototype.createGruntFile = function createGruntFile() {
-    this.copy('_Gruntfile.js', this.themePath + '/src/Gruntfile.js');
+    this.copy('_Gruntfile.js', this.themePath + '/Gruntfile.js');
 };
-
 
 
 RelishWordpressGenerator.prototype.createAssets = function createAssets() {
@@ -349,6 +350,7 @@ RelishWordpressGenerator.prototype.copyVariablesFile = function copyVariablesFil
 RelishWordpressGenerator.prototype.projectfiles = function projectfiles() {
     this.copy('editorconfig', '.editorconfig');
     this.copy('jshintrc', '.jshintrc');
+    this.copy('bowerrc', '.bowerrc');
 };
 
 /** PRIVATE FUNCTIONS - NOT TRIGGERED AUTOMATICALLY **/
