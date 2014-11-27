@@ -7,12 +7,12 @@ module.exports = function(grunt) {
             },
             js: {
                 src: [
-                    'bower_components/bootstrap/dist/js/bootstrap.min.js',
-                    'js/vendor/ScrollToPlugin.min.js',
-                    'js/vendor/TweenMax.min.js',
-                    'js/main.js'
+                    'src/bower_components/bootstrap/dist/js/bootstrap.min.js',
+                    'src/js/vendor/ScrollToPlugin.min.js',
+                    'src/js/vendor/TweenMax.min.js',
+                    'src/js/main.js'
                 ],
-                dest: '../assets/js/<%= pkg.name %>.js'
+                dest: 'assets/js/<%= pkg.name %>.js'
             }
         },
         uglify: {
@@ -21,7 +21,7 @@ module.exports = function(grunt) {
             },
             dist: {
                 files: {
-                    '../assets/js/<%= pkg.name %>.min.js': ['<%= concat.js.dest %>']
+                    'assets/js/<%= pkg.name %>.min.js': ['<%= concat.js.dest %>']
                 }
             }
         },
@@ -44,7 +44,7 @@ module.exports = function(grunt) {
                     cleancss: false
                 },
                 files: {
-                    "../assets/css/<%= pkg.name %>.css": "less/main.less"
+                    "assets/css/<%= pkg.name %>.css": "src/ess/main.less"
                 }
             },
             production: {
@@ -53,7 +53,7 @@ module.exports = function(grunt) {
                     cleancss: true
                 },
                 files: {
-                    "../assets/css/<%= pkg.name %>.min.css": "less/main.less"
+                    "assets/css/<%= pkg.name %>.min.css": "src/less/main.less"
                 }
             }
         },
@@ -64,21 +64,21 @@ module.exports = function(grunt) {
                     height: '50%',
                     overwrite: true
                 },
-                src: 'img/sprite/2x/*.png',
-                dest: 'img/sprite/base/'
+                src: 'src/img/sprite/2x/*.png',
+                dest: 'src/img/sprite/base/'
             }
         },
         sprite: {
             "base": {
-                src: ['img/sprite/*.png'],
-                destImg: 'img/sprite.png',
-                destCSS: 'less/sprite.less',
+                src: ['src/img/sprite/*.png'],
+                destImg: 'src/img/sprite.png',
+                destCSS: 'src/less/sprite.less',
                 imgPath: '../img/sprite.png',
                 algorithm: 'binary-tree',
                 padding: 1,
                 engine: 'auto',
                 cssFormat: 'less',
-                cssTemplate: 'lib/templates/less.template.mustache'
+                cssTemplate: 'src/lib/templates/less.template.mustache'
             }/*,
             "2x":{
                 src: ['img/sprite/2x/*.png'],
@@ -104,19 +104,19 @@ module.exports = function(grunt) {
                 },
                 files: [
                     {
-                        src: 'img/sprite@2x.png',
-                        dest: '../assets/img/sprite@2x.png'
+                        src: 'src/img/sprite@2x.png',
+                        dest: 'assets/img/sprite@2x.png'
                     },
                     {
-                        src: 'img/sprite.png',
-                        dest: '../assets/img/sprite.png'
+                        src: 'src/img/sprite.png',
+                        dest:'assets/img/sprite.png'
                     }
                 ]
 
             }
         },
         watch: {
-            files: ['Gruntfile.js', 'less/*.less', 'js/vendor/*.js', 'js/main.js'],
+            files: ['Gruntfile.js', 'src/less/*.less', 'src/js/vendor/*.js', 'src/js/main.js'],
             tasks: ['production'],
             options: {
                 livereload: true

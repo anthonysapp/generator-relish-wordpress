@@ -123,7 +123,7 @@ RelishWordpressGenerator.prototype.app = function app() {
 RelishWordpressGenerator.prototype.getWordPress = function getWordPress() {
     var appPath = this.appPath;
     var done = this.async();
-    this.extract('http://wordpress.org/latest.tar.gz', appPath, function (err) {
+    this.extract('http://wordpress.org/latest.tar.gz', appPath, {extract:true}, function (err) {
         if (err) {
             return done(err);
         }
